@@ -9,7 +9,40 @@ import (
 
 func main() {
 	//etcdPut()
-	etcdGet()
+	//etcdGet()
+	etcdDel()
+}
+
+func etcdDel() {
+	var (
+		config clientv3.Config
+		client *clientv3.Client
+		err error
+		kv clientv3.KV
+		delResp *clientv3.DeleteResponse
+	)
+
+	// 客户端配置
+	config = clientv3.Config{
+		Endpoints: []string{"127.0.0.1:2379"},
+		DialTimeout: 5 * time.Second,
+	}
+
+	// 建立连接
+	if client, err = clientv3.New(config); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// 用户读写etcd的键值对
+	kv = clientv3.NewKV(client)
+
+	if delResp, err = kv.Delete(context.TODO(), "name"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("getResp", delResp.PrevKvs)
 }
 
 func etcdPut() {
