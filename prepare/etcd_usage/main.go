@@ -8,6 +8,11 @@ import (
 )
 
 func main() {
+	//etcdPut()
+	etcdGet()
+}
+
+func etcdPut() {
 	var (
 		config clientv3.Config
 		client *clientv3.Client
@@ -36,5 +41,37 @@ func main() {
 	}
 
 	fmt.Println("Revision", puResp.Header.Revision)
+}
+
+func etcdGet()  {
+	var (
+		config clientv3.Config
+		client *clientv3.Client
+		err error
+		kv clientv3.KV
+		getResp *clientv3.GetResponse
+	)
+
+	// 客户端配置
+	config = clientv3.Config{
+		Endpoints: []string{"127.0.0.1:2379"},
+		DialTimeout: 5 * time.Second,
+	}
+
+	// 建立连接
+	if client, err = clientv3.New(config); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// 用户读写etcd的键值对
+	kv = clientv3.NewKV(client)
+
+	if getResp, err = kv.Get(context.TODO(), "name"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("getResp", getResp.Kvs)
 }
 
