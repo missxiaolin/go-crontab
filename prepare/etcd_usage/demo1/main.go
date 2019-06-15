@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
 	"time"
@@ -11,6 +12,8 @@ func main() {
 		config clientv3.Config
 		client *clientv3.Client
 		err error
+		kv clientv3.KV
+		puResp *clientv3.PutResponse
 	)
 
 	// 客户端配置
@@ -25,6 +28,13 @@ func main() {
 		return
 	}
 
-	client = client
+	// 用户读写etcd的键值对
+	kv = clientv3.NewKV(client)
+	if puResp, err = kv.Put(context.TODO(),"name", "xiaolin"); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("Revision", puResp.Header.Revision)
 }
 
