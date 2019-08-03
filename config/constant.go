@@ -7,7 +7,7 @@ const PRODUCE_PORT = "8888"
 const CONFIG_PATH = "config.yml"
 
 // admin身份认证基础加密信息
-const JWT_SECRET_ADMIN = "gw-admin"
+const JWT_SECRET_ADMIN = "crontab-admin"
 
 // admin身份认证过期时间(小时)
 const JWT_EXP_ADMIN = 2
