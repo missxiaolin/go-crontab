@@ -10,11 +10,12 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/gorhill/cronexpr v0.0.0-20180427100037-88b0669f7d75
 	github.com/mongodb/mongo-go-driver v1.0.4
+	github.com/prometheus/client_golang v1.1.0
+	github.com/sirupsen/logrus v1.2.0
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect
 	github.com/zctod/go-tool v0.0.5 // indirect
 	go.mongodb.org/mongo-driver v1.0.4
-	golang.org/x/net v0.0.0-20190603091049-60506f45cf65 // indirect
 	google.golang.org/grpc v1.21.1 // indirect
 	gopkg.in/yaml.v2 v2.2.2
 )

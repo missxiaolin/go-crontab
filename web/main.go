@@ -16,6 +16,9 @@ func newApp() *bootstrap.Bootstrapper {
 	app := bootstrap.New("任务调度", "xiaolin")
 	app.Bootstrap()
 	app.Use(middleware.Cors())
+	// 接入prometheus
+	p := middleware.NewPrometheus("gin")
+	p.Use(app.Engine);
 	app.Configure(routes.ApiConfigure)
 
 	return app
@@ -35,6 +38,8 @@ func startServer (b *bootstrap.Bootstrapper)  {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+
+
 
 
 	go func() {
