@@ -8,8 +8,14 @@ import (
 	"go-crontab/web/middleware"
 	"go-crontab/web/routes"
 	"net/http"
+	"runtime"
 	"time"
 )
+
+func initEnv()  {
+	// 配置线程数量
+	runtime.GOMAXPROCS(runtime.NumCPU())
+}
 
 func newApp() *bootstrap.Bootstrapper {
 	// 初始化应用
@@ -35,6 +41,7 @@ func newApp() *bootstrap.Bootstrapper {
 }
 
 func main ()  {
+	initEnv();
 	app := newApp()
 
 	startServer(app)
