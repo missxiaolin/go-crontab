@@ -37,12 +37,12 @@ func init()  {
 }
 
 func main() {
-	//etcdPut()
+	etcdPut()
 	//etcdGet()
 	//etcdDel()
 	//etcdLease()
 	//etcdWatch()
-	etcdTxn()
+	//etcdTxn()
 }
 
 func etcdTxn()  {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-crontab/bootstrap"
 	"go-crontab/common"
+	"go-crontab/common/etcd"
 	"go-crontab/config"
 	"go-crontab/web/middleware"
 	"go-crontab/web/routes"
@@ -43,6 +44,11 @@ func newApp() *bootstrap.Bootstrapper {
 func main ()  {
 	initEnv();
 	app := newApp()
+
+	// 实例化etcd
+	if err := etcd.InitJobMgr(); err != nil {
+		panic(err);
+	}
 
 	startServer(app)
 }
