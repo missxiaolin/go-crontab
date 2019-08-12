@@ -13,7 +13,7 @@ type Job struct {
  * 保存任务接口 etcd
  * POST job={name: xxx, command: xxxx, cronExpr: xxx}
  */
-func (t *Job) Save(c *gin.Context) {
+func (t *Job) JobSave(c *gin.Context) {
 	var (
 		job etcd.Job
 		oldJob *etcd.Job
@@ -31,3 +31,27 @@ func (t *Job) Save(c *gin.Context) {
 ERR:
 	t.Err(c, "job保存失败", 500)
 }
+
+/**
+ * 删除任务接口
+ */
+func (t *Job) JobDel(c *gin.Context) {
+	var (
+		err error
+		name string
+		oldJob *etcd.Job
+	)
+	name = c.DefaultQuery("name", "")
+	if name == "" {
+		goto ERR
+	}
+	// 去删除任务
+	if oldJob, err = etcd.G_jobMgr.DelJob(name); err != nil {
+		goto ERR
+	}
+	t.Succ(c, oldJob)
+ERR:
+	t.Err(c, "job删除失败", 500)
+}
+
+
