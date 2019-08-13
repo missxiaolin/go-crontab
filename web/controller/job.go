@@ -54,4 +54,24 @@ ERR:
 	t.Err(c, "job删除失败", 500)
 }
 
+/**
+ * 任务接口列表
+ */
+func (t *Job) JobList(c gin.Context) {
+	var (
+		jobList []*etcd.Job
+		err error
+	)
+	// 获取任务列表
+	if jobList, err = etcd.G_jobMgr.ListJobs(); err != nil {
+		goto ERR
+	}
+
+	t.Succ(c, jobList)
+
+
+ERR:
+	t.Err(c, "job获取列表失败", 500)
+}
+
 

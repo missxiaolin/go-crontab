@@ -11,4 +11,5 @@ func ApiConfigure(b *bootstrap.Bootstrapper)  {
 	d.GET("/index", new(controller.Index).Welcome)
 	d.POST("/job/save", new(controller.Job).JobSave)
 	d.GET("/job/del", new(controller.Job).JobDel)
+	d.GET("/job/list", new(controller.Job).JobList)
 }

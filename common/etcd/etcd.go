@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/coreos/etcd/clientv3"
+	"github.com/coreos/etcd/mvcc/mvccpb"
 	"time"
 )
 
@@ -105,5 +106,37 @@ func (jobMgr *JobMgr) DelJob(name string) (oldJob *Job, err error) {
 		oldJob = &oldJobObj
 	}
 
+	return
+}
+
+// 获取列表
+func (jobMgr *JobMgr) ListJobs() (jobList []*Job, err error) {
+	var (
+		dirKey string
+		getResp *clientv3.GetResponse
+		kvPair *mvccpb.KeyValue
+		job *Job
+	)
+
+	// 任务保存的目录
+	dirKey = "/cron/jobs/"
+
+	// 获取目录下所有任务信息
+	if getResp, err = jobMgr.kv.Get(context.TODO(), dirKey, clientv3.WithPrefix()); err != nil {
+		return
+	}
+
+	// 初始化数组空间
+	jobList = make([]*Job, 0)
+
+	// 遍历所有任务, 进行反序列化
+	for _, kvPair = range getResp.Kvs {
+		job = &Job{}
+		if err =json.Unmarshal(kvPair.Value, job); err != nil {
+			err = nil
+			continue
+		}
+		jobList = append(jobList, job)
+	}
 	return
 }
