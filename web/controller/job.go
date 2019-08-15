@@ -57,7 +57,7 @@ ERR:
 /**
  * 任务接口列表
  */
-func (t *Job) JobList(c gin.Context) {
+func (t *Job) JobList (c *gin.Context) {
 	var (
 		jobList []*etcd.Job
 		err error
@@ -74,4 +74,20 @@ ERR:
 	t.Err(c, "job获取列表失败", 500)
 }
 
+// 强制杀死某个任务
+func (t *Job) JobKill(c *gin.Context) {
+	var (
+		err error
+		name string
+	)
+
+	name = c.DefaultQuery("name", "")
+	// 杀死任务
+	if err = etcd.G_jobMgr.KillJob(name); err != nil {
+		goto ERR
+	}
+	t.Succ(c)
+ERR:
+	t.Err(c, "job kill 失败", 500)
+}
 
